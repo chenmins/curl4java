@@ -8,8 +8,15 @@ import com.sun.jna.Pointer;
 public interface CurlEasyLib extends Library {
 
 	interface DataHandler extends Callback {
+		//size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata);
 		int invoke(Pointer contents, int size, int nmemb, Pointer userp);
 	}
+	
+	interface ProgressHandler extends Callback {
+		//int progress_callback(void *clientp,   double dltotal,   double dlnow,   double ultotal,   double ulnow);
+		int invoke(Pointer contents, double dltotal, double dlnow,   double ultotal,   double ulnow);
+	}
+	
 
 	CurlEasyLib INSTANCE = (CurlEasyLib) Native.loadLibrary("curl",
 			CurlEasyLib.class);

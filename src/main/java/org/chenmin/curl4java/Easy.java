@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.chenmin.curl4java.CurlEasyLib.ProgressHandler;
+
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -22,6 +24,7 @@ public class Easy   {
 
 	private MemoryDataHandler headerHandler;
 	private MemoryDataHandler contentHandler;
+	private ProgressHandler progressHandler;
 
 	private PointerByReference stringRef = new PointerByReference();
 
@@ -29,6 +32,14 @@ public class Easy   {
 		handle = lib.curl_easy_init();
 		headerHandler = new MemoryDataHandler();
 		contentHandler = new MemoryDataHandler();
+	}
+
+	public ProgressHandler getProgressHandler() {
+		return progressHandler;
+	}
+
+	public void setProgressHandler(ProgressHandler progressHandler) {
+		this.progressHandler = progressHandler;
 	}
 
 	Pointer getHandle() {
@@ -57,7 +68,8 @@ public class Easy   {
 
 		setopt(CurlOption.CURLOPT_HEADERFUNCTION, headerHandler);
 		setopt(CurlOption.CURLOPT_WRITEFUNCTION, contentHandler);
-
+		setopt(CurlOption.CURLOPT_PROGRESSFUNCTION, progressHandler);
+		
 		return lib.curl_easy_perform(handle);
 	}
 

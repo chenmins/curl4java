@@ -43,6 +43,8 @@ public class Multi  {
 	}
 
 	public static void main(String[] args) {
+		
+		System.out.println(Curl.version());
 		Multi multi = new Multi();
 
 		Easy easy = new Easy();
